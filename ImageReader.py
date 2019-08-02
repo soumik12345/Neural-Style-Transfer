@@ -1,19 +1,20 @@
 import os, cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from tensorflow.keras.applications.vgg19 import preprocess_input
 
 class ImageReader:
 
 	@staticmethod
-	def load_img(location):
+	def load_img(location, height, width):
 	    img = cv2.resize(cv2.cvtColor(cv2.imread(location), cv2.COLOR_BGR2RGB), (width, height))
 	    img = np.expand_dims(img, axis = 0).astype('uint8')
 	    return img
 
 	@staticmethod
-	def load_and_process_img(location):
-	    img = load_img(location)
-	    img = tf.keras.applications.vgg19.preprocess_input(img)
+	def load_and_process_img(location, height, width):
+	    img = ImageReader.load_img(location, height, width)
+	    img = preprocess_input(img)
 	    return img
 
 	@staticmethod
